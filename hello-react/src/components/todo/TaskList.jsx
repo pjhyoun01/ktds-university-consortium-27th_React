@@ -1,4 +1,4 @@
-import TaskItems from "./TaskItems.jsx";
+import TaskItems, {TodoItemForChildren} from "./TaskItems.jsx";
 
 const TaskList = ({todoDatas}) => {
 
@@ -7,7 +7,13 @@ const TaskList = ({todoDatas}) => {
     return (
         <>
             {todoDatas.map((todo) => (
-                <TaskItems todo={todo} priorities={priorities}/>
+                // <TaskItems todo={todo} priorities={priorities} />
+                <TodoItemForChildren>
+                    <input type="checkbox" id={todo.id}/>
+                    <label htmlFor={todo.id}>{todo.todo}</label>
+                    <span className="due-date">{todo.dueDate}</span>
+                    <span className="priority">{priorities[todo.priority]}</span>
+                </TodoItemForChildren>
             ))}
         </>
     )
