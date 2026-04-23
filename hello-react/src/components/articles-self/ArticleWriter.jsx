@@ -2,7 +2,7 @@ export const ArticleWriter = () => {
     return (
         <>
             <div>게시글 작성</div>
-            <div>
+            <div className="write-form">
                 <label htmlFor="subject">제목</label>
                 <input id="subject" type="text"/>
                 <label htmlFor="email" for="">이메일</label>

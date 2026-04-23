@@ -7,6 +7,7 @@
 // }
 
 import TodoMain from "./components/todo/TodoMain";
+import ArticleMain from "./components/articles/ArticleMain.jsx";
 
 // export default App;
 
@@ -15,7 +16,9 @@ import TodoMain from "./components/todo/TodoMain";
 export default function App() {
   return (
     <>
-      <TodoMain />
+      {/*<TodoMain />*/}
+        <ArticleMain/>
     </>
+
   );
 }

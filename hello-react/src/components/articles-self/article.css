@@ -11,9 +11,13 @@
     grid-auto-rows: 3fr 1fr;
 }
 
-.article-main > table {
+.article-main > .write-form > div {
+    display: flex;
+    justify-content: space-around;
 
 }
 
-
+.article-main > .write-form > div > * {
+    width: 300px;
+}
 
