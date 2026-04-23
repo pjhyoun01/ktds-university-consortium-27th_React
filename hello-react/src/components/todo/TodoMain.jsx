@@ -12,60 +12,74 @@ import TaskHeader from "./TaskHeader.jsx";
 import TaskItems from "./TaskItems.jsx";
 import TodoAppender from "./TodoAppender.jsx";
 import TaskList from "./TaskList.jsx";
+import {useState} from "react";
 
 const TodoMain = () => {
-  // const ==> 상수 정의
-  // let ==> 변수 정의 (반복문 외 잘 사용하지 않음)
-  // TODO JSON DATA
-  const todoDatas = [
-    {
-      id: "todo_1",
-      todo: "react compent master 1",
-      dueDate: "2026-03-23",
-      priority: 1,
-    },
-    {
-      id: "todo_1",
-      todo: "react compent master 3",
-      dueDate: "2026-03-23",
-      priority: 2,
-    },
-    {
-      id: "todo_1",
-      todo: "react compent master 2",
-      dueDate: "2026-03-23",
-      priority: 3,
-    },
-    {
-      id: "todo_1",
-      todo: "react compent master 4",
-      dueDate: "2026-03-23",
-      priority: 0,
-    },
-  ];
+    // const ==> 상수 정의
+    // let ==> 변수 정의 (반복문 외 잘 사용하지 않음)
+    // TODO JSON DATA
+    const [data, setData] = useState([
+        {
+            id: "todo_1",
+            todo: "react compent master 1",
+            dueDate: "2026-03-23",
+            priority: 1,
+            isDone: false
+        },
+        {
+            id: "todo_3",
+            todo: "react compent master 3",
+            dueDate: "2026-03-23",
+            priority: 2,
+            isDone: false
+        },
+        {
+            id: "todo_2",
+            todo: "react compent master 2",
+            dueDate: "2026-03-23",
+            priority: 3,
+            isDone: false
+        },
+        {
+            id: "todo_4",
+            todo: "react compent master 4",
+            dueDate: "2026-03-23",
+            priority: 0,
+            isDone: false
+        },
+    ]);
 
-  const onTaskKeyUpHandler = () => {
-    console.log("추가");
-  };
-  const onPriorityChangeHandler = (event) => {
-    console.log(event.target.value);
-  };
-  const onSaveClickHandler = () => {
-    console.log("저장");
-  };
+    const onDoneChangeHandler = (id) => {
+        const tempData = (prev) =>
+            prev.map(item =>
+                item.id === id ? {...item, isDone: !item.isDone} : item
+        );
+        setData(tempData)
+    }
 
-  // 컴포넌트가 만들어줄 HTML Tag set 을 반환
-  return (
-    <div className="wrapper">
-      <header>React Todo</header>
-      <ul className="tasks">
-        <TaskHeader />
-        <TaskList todoDatas={todoDatas} />
-      </ul>
-      <TodoAppender onTaskKeyUp={onTaskKeyUpHandler} onPriorityChange={onPriorityChangeHandler} onSaveClick={onSaveClickHandler} />
+    const onTaskKeyUpHandler = () => {
+        console.log("추가");
+    };
+    const onPriorityChangeHandler = (event) => {
+        console.log(event.target.value);
+    };
+    const onSaveClickHandler = () => {
+        console.log("저장");
+    };
 
-    </div>
-  );
+    // 컴포넌트가 만들어줄 HTML Tag set 을 반환
+    return (
+        <div className="wrapper">
+            <header>React Todo</header>
+            <ul className="tasks">
+                <TaskHeader/>
+                <TaskList data={data} onDoneChange={onDoneChangeHandler}/>
+            </ul>
+            <TodoAppender onTaskKeyUp={onTaskKeyUpHandler} onPriorityChange={onPriorityChangeHandler}
+                          onSaveClick={onSaveClickHandler}/>
+
+        </div>
+    );
 };
 export default TodoMain;
 

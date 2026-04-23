@@ -107,6 +107,11 @@ body {
   flex-basis: 4rem;
 }
 
+.done {
+    color: #666;
+    text-decoration: line-through;
+}
+
 .done-todo {
   color: #ccc;
   text-decoration: line-through;
