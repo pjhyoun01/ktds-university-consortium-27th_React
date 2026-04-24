@@ -15,6 +15,13 @@ import TaskList from "./TaskList.jsx";
 import {useState} from "react";
 
 const TodoMain = () => {
+
+    const [{todo, dueDate, priority}, setNewTodoData] = useState({
+        todo: "",
+        dueDate: "",
+        priority: 0,
+    })
+
     // const ==> 상수 정의
     // let ==> 변수 정의 (반복문 외 잘 사용하지 않음)
     // TODO JSON DATA
@@ -50,21 +57,51 @@ const TodoMain = () => {
     ]);
 
     const onDoneChangeHandler = (id) => {
-        const tempData = (prev) =>
+        setData((prev) =>
             prev.map(item =>
                 item.id === id ? {...item, isDone: !item.isDone} : item
-        );
-        setData(tempData)
+            ))
     }
 
-    const onTaskKeyUpHandler = () => {
-        console.log("추가");
+    // TODO 반전 고치기
+    const onAllDoneChangeHandler = (e) => {
+        e.target.checked === true ?
+            setData((prevData) =>
+                prevData.map(item => {
+                        return {...item, isDone: true}
+                    }
+                )) :
+            setData((prevData) =>
+                prevData.map(item => ({...item, isDone: false})
+                ))
+    }
+
+    const onTaskKeyUpHandler = (event) => {
+        setNewTodoData((prevData) => (
+            {...prevData, todo: event.target.value}
+        ))
     };
+
+    const onDateChangeHandler = (event) => {
+        setNewTodoData((prevData) => (
+            {...prevData, dueDate: event.target.value}
+        ))
+    }
+
     const onPriorityChangeHandler = (event) => {
-        console.log(event.target.value);
+        setNewTodoData((prevData) => (
+            {...prevData, priority: parseInt(event.target.value)}
+        ))
     };
     const onSaveClickHandler = () => {
-        console.log("저장");
+        setData((prevData) => [
+            ...prevData, {id: prevData.length + 1, todo, dueDate, priority, isDone: false}
+        ])
+        setNewTodoData({
+            todo: "",
+            dueDate: "",
+            priority: 0,
+        })
     };
 
     // 컴포넌트가 만들어줄 HTML Tag set 을 반환
@@ -72,10 +109,12 @@ const TodoMain = () => {
         <div className="wrapper">
             <header>React Todo</header>
             <ul className="tasks">
-                <TaskHeader/>
+                <TaskHeader onAllDoneChange={onAllDoneChangeHandler}/>
                 <TaskList data={data} onDoneChange={onDoneChangeHandler}/>
             </ul>
-            <TodoAppender onTaskKeyUp={onTaskKeyUpHandler} onPriorityChange={onPriorityChangeHandler}
+            <TodoAppender inputData={{todo, dueDate, priority}} onTaskKeyUp={onTaskKeyUpHandler}
+                          onDateChange={onDateChangeHandler}
+                          onPriorityChange={onPriorityChangeHandler}
                           onSaveClick={onSaveClickHandler}/>
 
         </div>

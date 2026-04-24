@@ -68,8 +68,25 @@
       <option name="presentableId" value="Default" />
       <updated>1776902083841</updated>
       <workItem from="1776902084918" duration="1167000" />
-      <workItem from="1776986260944" duration="11035000" />
+      <workItem from="1776986260944" duration="25158000" />
     </task>
+    <task id="LOCAL-00001" summary="React spread(...)operator">
+      <option name="closed" value="true" />
+      <created>1777003393369</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1777003393369</updated>
+    </task>
+    <task id="LOCAL-00002" summary="React spread(...)operator">
+      <option name="closed" value="true" />
+      <created>1777003411058</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1777003411058</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -97,5 +114,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="React spread(...)operator" />
+    <option name="LAST_COMMIT_MESSAGE" value="React spread(...)operator" />
   </component>
 </project>

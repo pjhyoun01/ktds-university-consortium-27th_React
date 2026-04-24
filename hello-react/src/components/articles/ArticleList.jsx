@@ -4,7 +4,7 @@ const ArticleList = ({ contents }) => {
   return (
     <tbody>
       {contents.map((article) => (
-        <tr>
+        <tr key={article.id}>
           <td>{article.id}</td>
           <td>{article.subject}</td>
           <td>
