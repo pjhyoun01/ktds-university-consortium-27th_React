@@ -10,18 +10,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "pjhyoun01"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;pjhyoun01&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "git@github.com:pjhyoun01/ktds-university-consortium-27th_React.git",
-    "accountId": "5c58cb3a-84da-4d94-ad36-7f01b6569162"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;git@github.com:pjhyoun01/ktds-university-consortium-27th_React.git&quot;,
+    &quot;accountId&quot;: &quot;5c58cb3a-84da-4d94-ad36-7f01b6569162&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 0,
   &quot;fromUser&quot;: false
@@ -43,8 +43,9 @@
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/dev_programs/workspace/react",
+    "last_opened_file_path": "C:/dev_programs/workspace/react/hello-react/src/components/articles",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
@@ -60,6 +61,11 @@
     ]
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\dev_programs\workspace\react\hello-react\src\components\articles" />
+    </key>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="디폴트 작업">
       <changelist id="0bd142da-59ec-46a5-b7b3-2d1384e4d2ce" name="변경" comment="" />
@@ -68,7 +74,8 @@
       <option name="presentableId" value="Default" />
       <updated>1776902083841</updated>
       <workItem from="1776902084918" duration="1167000" />
-      <workItem from="1776986260944" duration="25158000" />
+      <workItem from="1776986260944" duration="25349000" />
+      <workItem from="1777248048460" duration="27781000" />
     </task>
     <task id="LOCAL-00001" summary="React spread(...)operator">
       <option name="closed" value="true" />
@@ -86,7 +93,15 @@
       <option name="project" value="LOCAL" />
       <updated>1777003411058</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="React useSate todo">
+      <option name="closed" value="true" />
+      <created>1777018609084</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1777018609084</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -117,6 +132,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="React spread(...)operator" />
-    <option name="LAST_COMMIT_MESSAGE" value="React spread(...)operator" />
+    <MESSAGE value="React useSate todo" />
+    <option name="LAST_COMMIT_MESSAGE" value="React useSate todo" />
   </component>
 </project>

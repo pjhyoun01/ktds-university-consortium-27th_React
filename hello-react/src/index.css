@@ -62,6 +62,7 @@ body {
     display: flex;
     gap: 0.625rem;
 }
+
 .wrapper > .tasks > li.tasks-header {
     background-color: #fff;
     font-weight: 900;
@@ -99,13 +100,16 @@ body {
     display: flex;
     gap: 0.625rem;
 }
+
 .wrapper > footer > input[type="text"] {
     flex-grow: 1;
     padding: 0.625rem;
 }
+
 .wrapper > footer > input[type="date"] {
     padding: 0.625rem;
 }
+
 .wrapper > footer > select {
     padding: 0.625rem;
 }
@@ -137,10 +141,12 @@ button {
     border-radius: 5px;
     color: #fff;
 }
+
 button:hover {
     background-color: #a4ccf7;
     color: #333;
 }
+
 button:active {
     background-color: #79a7d8;
     color: #333;
@@ -224,6 +230,7 @@ button.confirm-cancel {
         & > tr {
             background-color: #fff;
             border-bottom: 1px solid #ccc;
+
             & > td {
                 padding: 0.625rem;
 
@@ -248,6 +255,7 @@ button.confirm-cancel {
 button.positive-button {
     background-color: #00f6;
     color: #00aa;
+
     &:hover {
         color: #fff;
     }
@@ -277,6 +285,7 @@ button.negative-button {
         border: 1px solid #e7e7e7;
         outline: 0;
         border-radius: 0.5rem;
+
         &:focus {
             box-shadow: 0 0 1rem #00f6;
         }

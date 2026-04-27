@@ -4,89 +4,51 @@ import ArticleHeader from "./ArticleHeader.jsx";
 import ArticleList from "./ArticleList.jsx";
 import articleData from "./articles.json";
 import ArticleWriter from "./ArticleWriter.jsx";
+import ArticleWriter2 from "./ArticleWriter2.jsx";
 import {useState} from "react";
 
 const ArticleMain = () => {
 
     const [articles, setArticles] = useState(articleData.articles);
-    const [writerForm, setWriterForm] = useState(false);
 
-    const [{subject, name, email, content}, setInputData] = useState({
-        subject: "",
-        name: "",
-        email: "",
-        content: "",
-    });
+    const onClickSaveButtonHandler = (subject, name, email, content) => {
+        const lpad = (str, length, defaultCharacter) => {
+            const remainLength = length - (str + "").length;
+            return defaultCharacter.repeat(remainLength) + str;
+        };
 
-    const onSubjectChangeHandler = (event) => {
-        setInputData(prevData => (
-            {...prevData, subject: event.target.value}
-        ))
-    }
-    const onNameChangeHandler = (e) => {
-        setInputData(prevData => (
-            {...prevData, name: e.target.value}
-        ))
-    }
-    const onEmailChangeHandler = (e) => {
-        setInputData(prevData => (
-            {...prevData, email: e.target.value}
-        ))
-    }
-    const onContentChangeHandler = (e) => {
-        setInputData(prevData => (
-            {...prevData, content: e.target.value}
-        ))
+        const getDateTime = (format) => {
+            const now = new Date();
 
-    }
+            return format
+                .replaceAll("YYYY", now.getFullYear())
+                .replaceAll("MM", lpad(now.getMonth() + 1, 2, "0"))
+                .replaceAll("DD", lpad(now.getDate(), 2, "0"))
+                .replaceAll("HH", lpad(now.getHours(), 2, "0"))
+                .replaceAll("mm", lpad(now.getMinutes(), 2, "0"))
+                .replaceAll("ss", lpad(now.getSeconds(), 2, "0"));
+        };
 
-    const removeHandler = () => {
-        setInputData({
-            subject: "",
-            name: "",
-            email: "",
-            content: "",
-        })
-        setWriterForm(false);
-    }
+        const makeId = (index) => {
+            const seq = lpad(index, 6, "0");
+            return `BO-${getDateTime("YYYYMMDD-")}${seq}`;
+        };
 
-    // TODO "000001" 형식으로 바꿔보기
-    // const [temp, setTemp] = useState("");
-    // (6 - String(articles).length).forEach(() => (setTemp(prevData => (prevData + "0"))));
-    // console.log(temp)
-    // console.log(articles);
-    const onClickSaveButtonHandler = () => {
-        setArticles(prevData => (
-
-            [...prevData, {
-                id: "BO-20260423-",
+        setArticles((prevData) => [
+            ...prevData,
+            {
+                id: makeId(prevData.length + 1),
                 subject,
                 content,
                 email,
-                viewCnt: 1001,
-                crtDt: "2026-04-23 09:10:11",
-                mdfyDt: "2026-04-23 09:15:23",
-                fileGroupId: "FG-20260423-000001",
-                membersVO: {email, name},
-                files: [
-                    {
-                        fileNum: 1,
-                        fileGroupId: "FG-20260423-000001",
-                        displayName: "Testfile.exe",
-                        fileLength: 15000
-                    }]
-            }]
-        ))
-
-        removeHandler();
-    }
-
-    const onClickCancleButtonHandler = () => {
-        removeHandler();
-    }
-
-    const onClickWriterFormHandler = () => {
-        setWriterForm(prevData => (!prevData));
+                viewCnt: parseInt(Math.random() * 100),
+                crtDt: getDateTime("YYYY-MM-DD HH:mm:ss"),
+                mdfyDt: null,
+                fileGroupId: null,
+                membersVO: { email, name },
+                files: [],
+            },
+        ]);
     }
 
     return (
@@ -96,14 +58,7 @@ const ArticleMain = () => {
                 <ArticleHeader/>
                 <ArticleList contents={articles}/>
             </table>
-            {writerForm === false ? (
-                <button onClick={onClickWriterFormHandler}>글쓰기</button>
-            ) : (
-                <ArticleWriter inputData={{subject, name, email, content}} onSubjectChange={onSubjectChangeHandler}
-                               onNameChange={onNameChangeHandler} onEmailChange={onEmailChangeHandler}
-                               onContentChange={onContentChangeHandler} onClickSaveButton={onClickSaveButtonHandler}
-                               onClickCancleButton={onClickCancleButtonHandler}/>
-            )}
+            <ArticleWriter onClickSaveButton={onClickSaveButtonHandler}/>
         </div>
     );
 }

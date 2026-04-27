@@ -16,12 +16,6 @@ import {useState} from "react";
 
 const TodoMain = () => {
 
-    const [{todo, dueDate, priority}, setNewTodoData] = useState({
-        todo: "",
-        dueDate: "",
-        priority: 0,
-    })
-
     // const ==> 상수 정의
     // let ==> 변수 정의 (반복문 외 잘 사용하지 않음)
     // TODO JSON DATA
@@ -64,8 +58,10 @@ const TodoMain = () => {
     }
 
     // TODO 반전 고치기
-    const onAllDoneChangeHandler = (e) => {
-        e.target.checked === true ?
+    const onAllDoneChangeHandler = (checkboxRef) => {
+
+        console.log("checkboxRef", checkboxRef);
+        checkboxRef ?
             setData((prevData) =>
                 prevData.map(item => {
                         return {...item, isDone: true}
@@ -76,32 +72,11 @@ const TodoMain = () => {
                 ))
     }
 
-    const onTaskKeyUpHandler = (event) => {
-        setNewTodoData((prevData) => (
-            {...prevData, todo: event.target.value}
-        ))
-    };
 
-    const onDateChangeHandler = (event) => {
-        setNewTodoData((prevData) => (
-            {...prevData, dueDate: event.target.value}
-        ))
-    }
-
-    const onPriorityChangeHandler = (event) => {
-        setNewTodoData((prevData) => (
-            {...prevData, priority: parseInt(event.target.value)}
-        ))
-    };
-    const onSaveClickHandler = () => {
+    const onSaveClickHandler = (todo, dueDate, priority) => {
         setData((prevData) => [
             ...prevData, {id: prevData.length + 1, todo, dueDate, priority, isDone: false}
         ])
-        setNewTodoData({
-            todo: "",
-            dueDate: "",
-            priority: 0,
-        })
     };
 
     // 컴포넌트가 만들어줄 HTML Tag set 을 반환
@@ -112,10 +87,7 @@ const TodoMain = () => {
                 <TaskHeader onAllDoneChange={onAllDoneChangeHandler}/>
                 <TaskList data={data} onDoneChange={onDoneChangeHandler}/>
             </ul>
-            <TodoAppender inputData={{todo, dueDate, priority}} onTaskKeyUp={onTaskKeyUpHandler}
-                          onDateChange={onDateChangeHandler}
-                          onPriorityChange={onPriorityChangeHandler}
-                          onSaveClick={onSaveClickHandler}/>
+            <TodoAppender onSaveClick={onSaveClickHandler}/>
 
         </div>
     );
