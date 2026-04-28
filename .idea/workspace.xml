@@ -22,6 +22,10 @@
     &quot;accountId&quot;: &quot;5c58cb3a-84da-4d94-ad36-7f01b6569162&quot;
   }
 }</component>
+  <component name="KubernetesApiPersistence"><![CDATA[{}]]></component>
+  <component name="KubernetesApiProvider"><![CDATA[{
+  "isMigrated": true
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 0,
   &quot;fromUser&quot;: false
@@ -29,6 +33,7 @@
   <component name="ProjectId" id="3Cjbm8ZHRSaLqtbWulqlHZwDch5" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
+    <ConfirmationsSetting value="2" id="Remove" />
   </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -45,11 +50,11 @@
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/dev_programs/workspace/react/hello-react/src/components/articles",
+    "last_opened_file_path": "C:/dev_programs/workspace/react/hello-react/src/components/tmdb",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "terminal",
+    "settings.editor.selected.configurable": "preferences.sourceCode",
     "ts.external.directory.path": "C:\\Users\\pjhyo\\dev_programs\\IDE\\IntelliJ IDEA 2026.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
   },
@@ -63,6 +68,8 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\dev_programs\workspace\react\hello-react\src\components\tmdb" />
+      <recent name="C:\dev_programs\workspace\react" />
       <recent name="C:\dev_programs\workspace\react\hello-react\src\components\articles" />
     </key>
   </component>
@@ -75,7 +82,8 @@
       <updated>1776902083841</updated>
       <workItem from="1776902084918" duration="1167000" />
       <workItem from="1776986260944" duration="25349000" />
-      <workItem from="1777248048460" duration="27781000" />
+      <workItem from="1777248048460" duration="27827000" />
+      <workItem from="1777334507735" duration="24566000" />
     </task>
     <task id="LOCAL-00001" summary="React spread(...)operator">
       <option name="closed" value="true" />
@@ -101,7 +109,15 @@
       <option name="project" value="LOCAL" />
       <updated>1777018609084</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="React useRef">
+      <option name="closed" value="true" />
+      <created>1777279755313</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1777279755313</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -133,6 +149,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="React spread(...)operator" />
     <MESSAGE value="React useSate todo" />
-    <option name="LAST_COMMIT_MESSAGE" value="React useSate todo" />
+    <MESSAGE value="React useRef" />
+    <option name="LAST_COMMIT_MESSAGE" value="React useRef" />
   </component>
 </project>

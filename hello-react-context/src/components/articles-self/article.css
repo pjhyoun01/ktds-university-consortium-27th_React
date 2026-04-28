@@ -1,0 +1,23 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    width: 1400px;
+}
+
+.article-main {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-auto-rows: 3fr 1fr;
+}
+
+.article-main > .write-form > div {
+    display: flex;
+    justify-content: space-around;
+
+}
+
+.article-main > .write-form > div > * {
+    width: 300px;
+}
+

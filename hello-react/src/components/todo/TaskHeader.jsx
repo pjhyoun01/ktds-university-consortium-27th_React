@@ -1,12 +1,16 @@
-import {Alert, Confirm} from "../ui/Modal.jsx";
-import {useRef} from "react";
+import {Confirm} from "../ui/Modal.jsx";
+import {useContext, useRef} from "react";
+import {TodoContext} from "./context/TodoContext.jsx";
 
 const TaskHeader = ({onAllDoneChange}) => {
-
     const checkboxRef = useRef();
-
     const confirmRef = useRef();
 
+    const {componentName} = useContext(TodoContext);
+    console.log("TodoHeader: ", componentName);
+    if (!componentName || componentName !== "TodoGrid") {
+        return <></>;
+    }
 
     const onAllDoneTrueFalseChangeHandler = () => {
         if (checkboxRef.current.checked) {

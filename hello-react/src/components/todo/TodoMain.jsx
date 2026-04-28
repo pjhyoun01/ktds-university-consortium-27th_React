@@ -13,6 +13,7 @@ import TaskItems from "./TaskItems.jsx";
 import TodoAppender from "./TodoAppender.jsx";
 import TaskList from "./TaskList.jsx";
 import {useState} from "react";
+import {TodoGrid} from "./TodoGrid.jsx";
 
 const TodoMain = () => {
 
@@ -59,8 +60,6 @@ const TodoMain = () => {
 
     // TODO 반전 고치기
     const onAllDoneChangeHandler = (checkboxRef) => {
-
-        console.log("checkboxRef", checkboxRef);
         checkboxRef ?
             setData((prevData) =>
                 prevData.map(item => {
@@ -72,7 +71,6 @@ const TodoMain = () => {
                 ))
     }
 
-
     const onSaveClickHandler = (todo, dueDate, priority) => {
         setData((prevData) => [
             ...prevData, {id: prevData.length + 1, todo, dueDate, priority, isDone: false}
@@ -83,12 +81,15 @@ const TodoMain = () => {
     return (
         <div className="wrapper">
             <header>React Todo</header>
-            <ul className="tasks">
+            <TodoGrid>
                 <TaskHeader onAllDoneChange={onAllDoneChangeHandler}/>
-                <TaskList data={data} onDoneChange={onDoneChangeHandler}/>
-            </ul>
+                <TaskList>
+                    {data.map((todo) => (
+                        <TaskItems key={todo.id} todo={todo} onDoneChange={onDoneChangeHandler}/>
+                    ))}
+                </TaskList>
+            </TodoGrid>
             <TodoAppender onSaveClick={onSaveClickHandler}/>
-
         </div>
     );
 };

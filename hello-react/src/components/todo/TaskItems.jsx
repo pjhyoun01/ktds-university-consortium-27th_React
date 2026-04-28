@@ -1,7 +1,12 @@
 import {Confirm} from "../ui/Modal.jsx";
-import {useRef} from "react";
+import {useContext, useRef} from "react";
+import {TodoContext} from "./context/TodoContext.jsx";
 
-const TaskItems = ({todo, priorities, onDoneChange}) => {
+const TaskItems = ({todo, onDoneChange}) => {
+    const priorities = ["없음", "높음", "보통", "낮음"];
+
+    const {componentName} = useContext(TodoContext);
+
     // props todo의 이름과 todo.todo의 이름이 같아 객체 구조 분해 불가
     // todo.todo의 이름을 todoTask로 변경해 할당
     const {id, todo:todoTask, dueDate, priority, isDone} = todo;
@@ -10,6 +15,12 @@ const TaskItems = ({todo, priorities, onDoneChange}) => {
 
     const checkboxRef = useRef();
     const confirmRef = useRef();
+
+
+    // use hook들을 return 이전에 작성되어야함
+    if (!componentName || componentName !== "TodoList") {
+        return <></>
+    }
 
     const onDoneTrueFalseChangeHandler = (event) => {
         console.log(event.key)

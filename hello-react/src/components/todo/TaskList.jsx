@@ -1,21 +1,22 @@
-import TaskItems, {TodoItemForChildren} from "./TaskItems.jsx";
+import TaskItems from "./TaskItems.jsx";
+import {useContext} from "react";
+import {TodoContext} from "./context/TodoContext.jsx";
 
-const TaskList = ({data, onDoneChange}) => {
+const TaskList = ({children}) => {
 
-    const priorities = ["없음", "높음", "보통", "낮음"];
+    const {componentName} = useContext(TodoContext);
+    if (!componentName || componentName !== "TodoGrid") {
+        return <></>;
+    }
+
+    const providerProps = {
+        componentName: "TodoList",
+    }
 
     return (
-        <>
-            {data.map((todo) => (
-                <TaskItems key={todo.id} todo={todo} priorities={priorities} onDoneChange={onDoneChange}/>
-                // <TodoItemForChildren>
-                //     <input type="checkbox" id={todo.id}/>
-                //     <label htmlFor={todo.id}>{todo.todo}</label>
-                //     <span className="due-date">{todo.dueDate}</span>
-                //     <span className="priority">{priorities[todo.priority]}</span>
-                // </TodoItemForChildren>
-            ))}
-        </>
+            <TodoContext.Provider value={providerProps}>
+                {children}
+            </TodoContext.Provider>
     )
 }
 export default TaskList;
