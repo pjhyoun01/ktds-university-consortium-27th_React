@@ -1,66 +1,119 @@
-/** @format */
-// articles.json 파일 불러오기
+import {useEffect, useRef, useState} from "react";
 import ArticleHeader from "./ArticleHeader.jsx";
 import ArticleList from "./ArticleList.jsx";
-import articleData from "./articles.json";
 import ArticleWriter from "./ArticleWriter.jsx";
-import ArticleWriter2 from "./ArticleWriter2.jsx";
-import {useState} from "react";
+import {fetchArticleList, fetchJsonWebToken} from "../../http/article/fetchArticle.js";
 
-const ArticleMain = () => {
+export const ArticleMain = () => {
 
-    const [articles, setArticles] = useState(articleData.articles);
+    const emailRef = useRef();
+    const passwordRef = useRef();
+    const [token, setToken] = useState();
+    const [viewPageNo, setViewPageNo] = useState(0);
+    const onPaginationButtonClickHandler = (nextPageNo) => {
+        setViewPageNo(nextPageNo);
+    };
 
-    const onClickSaveButtonHandler = (subject, name, email, content) => {
-        const lpad = (str, length, defaultCharacter) => {
-            const remainLength = length - (str + "").length;
-            return defaultCharacter.repeat(remainLength) + str;
-        };
+    const [
+        {
+            count,
+            result: articles,
+            pagination: {pageNo = 0, pageCount = 0},
+        },
+        setArticles,
+    ] = useState({
+        count: 0,
+        result: [],
+        pagination: {},
+    });
 
-        const getDateTime = (format) => {
-            const now = new Date();
+    const refreshArticleList = async () => {
+        const articleList = await fetchArticleList(viewPageNo);
+        /*  articleList의 구조
+        {
+          result: { count: 0, result: [] },
+          pagination: {},
+        }
+        */
+        const {
+            result: {count, result},
+            pagination,
+        } = articleList;
 
-            return format
-                .replaceAll("YYYY", now.getFullYear())
-                .replaceAll("MM", lpad(now.getMonth() + 1, 2, "0"))
-                .replaceAll("DD", lpad(now.getDate(), 2, "0"))
-                .replaceAll("HH", lpad(now.getHours(), 2, "0"))
-                .replaceAll("mm", lpad(now.getMinutes(), 2, "0"))
-                .replaceAll("ss", lpad(now.getSeconds(), 2, "0"));
-        };
+        setArticles({count, result, pagination});
 
-        const makeId = (index) => {
-            const seq = lpad(index, 6, "0");
-            return `BO-${getDateTime("YYYYMMDD-")}${seq}`;
-        };
+        if (articleList.error) {
+            alert(articleList.error);
+        }
+    };
 
+    useEffect(() => {
+        refreshArticleList();
+    }, [viewPageNo]);
+
+    const refreshToken = async () => {
+        const jwt = await fetchJsonWebToken(emailRef.current.value, passwordRef.current.value);
+        console.log(jwt.token)
+        setToken(jwt);
+    }
+
+
+    const onAddArticleClickHandler = (subject, name, email, content) => {
         setArticles((prevData) => [
             ...prevData,
             {
-                id: makeId(prevData.length + 1),
+                id: prevData.length + 1,
                 subject,
                 content,
                 email,
-                viewCnt: parseInt(Math.random() * 100),
-                crtDt: getDateTime("YYYY-MM-DD HH:mm:ss"),
+                viewCnt: parseInt(Math.random() * 10000),
+                crtDt: "2026-01-01",
                 mdfyDt: null,
                 fileGroupId: null,
-                membersVO: { email, name },
+                membersVO: {email, name},
                 files: [],
             },
         ]);
-    }
+    };
 
     return (
         <div className="wrapper">
-            <div>{articles.length}개의 게시글이 검색되었습니다.</div>
+            {!token ? (
+                <div>
+                    <div>
+                        <label htmlFor="">이메일</label>
+                        <input type="text" ref={emailRef}/>
+                    </div>
+                    <div>
+                        <label htmlFor="">비밀번호</label>
+                        <input type="text" ref={passwordRef}/>
+                    </div>
+
+                    <button onClick={refreshToken}>로그인</button>
+                </div>
+            ) : <></>}
+            <div>{count}개의 게시글이 검색되었습니다.</div>
             <table>
                 <ArticleHeader/>
                 <ArticleList contents={articles}/>
             </table>
-            <ArticleWriter onClickSaveButton={onClickSaveButtonHandler}/>
+            <div>
+                {pageNo > 0 && (
+                    <button
+                        onClick={onPaginationButtonClickHandler.bind(this, pageNo - 1)}
+                    >
+                        이전
+                    </button>
+                )}
+                {pageNo === 0 && pageCount - 1 > pageNo && (
+                    <button
+                        onClick={onPaginationButtonClickHandler.bind(this, pageNo + 1)}
+                    >
+                        다음
+                    </button>
+                )}
+            </div>
+            <ArticleWriter onAddArticleClick={onAddArticleClickHandler}/>
         </div>
     );
-}
-
-export default ArticleMain;
+};

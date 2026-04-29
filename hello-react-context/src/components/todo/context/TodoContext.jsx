@@ -22,28 +22,28 @@ const TodoContextProvider = ({children}) => {
             todo: "react compent master 1",
             dueDate: "2026-03-23",
             priority: 1,
-            isDone: false
+            done: false
         },
         {
             id: "todo_3",
             todo: "react compent master 3",
             dueDate: "2026-03-23",
             priority: 2,
-            isDone: false
+            done: false
         },
         {
             id: "todo_2",
             todo: "react compent master 2",
             dueDate: "2026-03-23",
             priority: 3,
-            isDone: false
+            done: false
         },
         {
             id: "todo_4",
             todo: "react compent master 4",
             dueDate: "2026-03-23",
             priority: 0,
-            isDone: false
+            done: false
         },
     ]);
 
@@ -52,23 +52,23 @@ const TodoContextProvider = ({children}) => {
         done(todoId) {
             setData((prevState) =>
                 prevState.map(item =>
-                    item.id === todoId ? {...item, isDone: !item.isDone} : item
+                    item.id === todoId ? {...item, done: !item.done} : item
                 ))
         },
         allDone(doneState) {
             doneState ?
                 setData((prevState) =>
                     prevState.map(item => {
-                            return {...item, isDone: true}
+                            return {...item, done: true}
                         }
                     )) :
                 setData((prevState) =>
-                    prevState.map(item => ({...item, isDone: false})
+                    prevState.map(item => ({...item, done: false})
                     ))
         },
         addTodo(taskName, dueDate, priority) {
             setData((prevState) => [
-                ...prevState, {id: prevState.length + 1, todo: taskName, dueDate, priority, isDone: false}
+                ...prevState, {id: prevState.length + 1, todo: taskName, dueDate, priority, done: false}
             ])
         },
         getTodo(todoId) {

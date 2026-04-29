@@ -1,4 +1,3 @@
-/** @format */
 import {useRef, useState} from "react";
 import {Alert} from "../ui/Modal.jsx";
 
@@ -21,7 +20,7 @@ const Textarea = ({id, title, ...props}) => {
     }
 ;
 
-const ArticleWriter = ({onClickSaveButton}) => {
+const ArticleWriter = () => {
 
     const subjectRef = useRef();
     const nameRef = useRef();
@@ -52,10 +51,10 @@ const ArticleWriter = ({onClickSaveButton}) => {
             return;
         }
 
-        onClickSaveButton(subjectRef.current.value,
-            nameRef.current.value,
-            emailRef.current.value,
-            contentRef.current.value)
+        // onClickSaveButton(subjectRef.current.value,
+        //     nameRef.current.value,
+        //     emailRef.current.value,
+        //     contentRef.current.value)
 
         subjectRef.current.value = "";
         nameRef.current.value = "";

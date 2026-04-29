@@ -7,7 +7,7 @@
 // }
 
 import TodoMain from "./components/todo/TodoMain";
-import ArticleMain from "./components/articles/ArticleMain.jsx";
+import {ArticleMain} from "./components/articles/ArticleMain.jsx";
 import {TmdbMain} from "./components/tmdb/TmdbMain.jsx";
 
 // export default App;
@@ -16,6 +16,6 @@ import {TmdbMain} from "./components/tmdb/TmdbMain.jsx";
 
 export default function App() {
     return (
-        <TmdbMain/>
+        <ArticleMain/>
     );
 }

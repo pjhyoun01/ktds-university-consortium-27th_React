@@ -8,73 +8,73 @@
 //                          함수를 호출한 대상을 event 파라미터로만 알 수 있음
 
 // export default 이후에 const 키워드를 사용할 수 없음
-import TaskHeader from "./TaskHeader.jsx";
-import TaskItems from "./TaskItems.jsx";
+import TodoHeader from "./TodoHeader.jsx";
+import TodoItems from "./TodoItems.jsx";
 import TodoAppender from "./TodoAppender.jsx";
-import TaskList from "./TaskList.jsx";
-import {useState} from "react";
+import TodoList from "./TodoList.jsx";
+import {useCallback, useEffect, useMemo, useState} from "react";
 import {TodoGrid} from "./TodoGrid.jsx";
+import {fetchAddTodo, fetchAllDoneTodo, fetchDoneTodo, fetchTodoList} from "../../http/todo/fetchTodo.js";
 
 const TodoMain = () => {
+
+    // fetch("http://localhost:8888/api/v1/task", {
+    //     method: "GET",
+    // })
+    //     .then(response => response.json())
+    //     .then(json => console.log("json 데이터: ", json));
+    // console.log("TodoMain");
+
 
     // const ==> 상수 정의
     // let ==> 변수 정의 (반복문 외 잘 사용하지 않음)
     // TODO JSON DATA
-    const [data, setData] = useState([
-        {
-            id: "todo_1",
-            todo: "react compent master 1",
-            dueDate: "2026-03-23",
-            priority: 1,
-            isDone: false
-        },
-        {
-            id: "todo_3",
-            todo: "react compent master 3",
-            dueDate: "2026-03-23",
-            priority: 2,
-            isDone: false
-        },
-        {
-            id: "todo_2",
-            todo: "react compent master 2",
-            dueDate: "2026-03-23",
-            priority: 3,
-            isDone: false
-        },
-        {
-            id: "todo_4",
-            todo: "react compent master 4",
-            dueDate: "2026-03-23",
-            priority: 0,
-            isDone: false
-        },
-    ]);
+    const [data, setData] = useState([]);
 
-    const onDoneChangeHandler = (id) => {
-        setData((prev) =>
-            prev.map(item =>
-                item.id === id ? {...item, isDone: !item.isDone} : item
-            ))
-    }
+    const fetchTodoListData = async () => {
 
-    // TODO 반전 고치기
-    const onAllDoneChangeHandler = (checkboxRef) => {
-        checkboxRef ?
-            setData((prevData) =>
-                prevData.map(item => {
-                        return {...item, isDone: true}
-                    }
-                )) :
-            setData((prevData) =>
-                prevData.map(item => ({...item, isDone: false})
-                ))
-    }
+        const TodoList = await fetchTodoList();
+        if (!TodoList) {
+            alert(TodoList.errors)
+        } else {
+            setData(TodoList.body)
+        }
+    };
+    useEffect(() => {
+        fetchTodoListData();
+    }, []);
 
-    const onSaveClickHandler = (todo, dueDate, priority) => {
-        setData((prevData) => [
-            ...prevData, {id: prevData.length + 1, todo, dueDate, priority, isDone: false}
-        ])
+    const todoCount = useMemo(() => {
+        return {
+            all: data.length,
+            done: data.filter((item) => item.done).length,
+            process: data.filter((item) => !item.done).length,
+        }
+    }, [data])
+
+    const onAllDoneChangeHandler = useCallback(async () => {
+        const allDoneTodo = await fetchAllDoneTodo();
+        if (allDoneTodo) {
+            alert(allDoneTodo.errors);
+        }
+        await fetchTodoListData()
+    }, []);
+
+    const onDoneChangeHandler = useCallback(async (id) => {
+        const doneTodo = await fetchDoneTodo(id);
+        if (doneTodo) {
+            alert(doneTodo.errors);
+        }
+        await fetchTodoListData()
+    }, []);
+
+    const onSaveClickHandler = async (todo, dueDate, priority) => {
+
+        const addTodo = await fetchAddTodo(todo, dueDate, priority);
+        if (addTodo) {
+            alert(addTodo.errors);
+        }
+        await fetchTodoListData()
     };
 
     // 컴포넌트가 만들어줄 HTML Tag set 을 반환
@@ -82,12 +82,12 @@ const TodoMain = () => {
         <div className="wrapper">
             <header>React Todo</header>
             <TodoGrid>
-                <TaskHeader onAllDoneChange={onAllDoneChangeHandler}/>
-                <TaskList>
+                <TodoHeader todoCount={todoCount} onAllDoneChange={onAllDoneChangeHandler}/>
+                <TodoList>
                     {data.map((todo) => (
-                        <TaskItems key={todo.id} todo={todo} onDoneChange={onDoneChangeHandler}/>
+                        <TodoItems key={todo.id} todo={todo} onDoneChange={onDoneChangeHandler}/>
                     ))}
-                </TaskList>
+                </TodoList>
             </TodoGrid>
             <TodoAppender onSaveClick={onSaveClickHandler}/>
         </div>

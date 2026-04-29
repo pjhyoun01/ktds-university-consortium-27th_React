@@ -1,8 +1,8 @@
-import TaskItems from "./TaskItems.jsx";
+import TodoItems from "./TodoItems.jsx";
 import {useContext} from "react";
 import {TodoContext} from "./context/TodoContext.jsx";
 
-const TaskList = ({children}) => {
+const TodoList = ({children}) => {
 
     const {componentName} = useContext(TodoContext);
     if (!componentName || componentName !== "TodoGrid") {
@@ -19,4 +19,4 @@ const TaskList = ({children}) => {
             </TodoContext.Provider>
     )
 }
-export default TaskList;
+export default TodoList;

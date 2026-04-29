@@ -1,7 +1,8 @@
-import {useRef} from "react";
+import {memo, useRef} from "react";
 import {Alert} from "../ui/Modal.jsx";
 
-const TodoAppender = ({onSaveClick}) => {
+const TodoAppender = memo(({onSaveClick}) => {
+
     const todoRef = useRef();
     const dueDateRef = useRef();
     const priorityRef = useRef();
@@ -48,5 +49,5 @@ const TodoAppender = ({onSaveClick}) => {
             </footer>
         </>
     )
-}
+})
 export default TodoAppender;

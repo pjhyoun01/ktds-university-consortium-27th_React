@@ -2,16 +2,16 @@ import {Confirm} from "../ui/Modal.jsx";
 import {useContext, useRef} from "react";
 import {TodoContext} from "./context/TodoContext.jsx";
 
-const TaskItems = ({todo, onDoneChange}) => {
+const TodoItems = ({todo, onDoneChange}) => {
     const priorities = ["없음", "높음", "보통", "낮음"];
 
     const {componentName} = useContext(TodoContext);
 
     // props todo의 이름과 todo.todo의 이름이 같아 객체 구조 분해 불가
     // todo.todo의 이름을 todoTask로 변경해 할당
-    const {id, todo:todoTask, dueDate, priority, isDone} = todo;
+    const {id, task, dueDate, priority, done} = todo;
 
-    const doneClass = isDone ? 'done' : 'not-done';
+    const doneClass = done ? 'done' : 'not-done';
 
     const checkboxRef = useRef();
     const confirmRef = useRef();
@@ -45,15 +45,15 @@ const TaskItems = ({todo, onDoneChange}) => {
         <>
         <Confirm dialogRef={confirmRef} onOkClick={onConfirmOkHandler} onCloseClick={onConfirmCancelHandler}/>
         <li className="task-item">
-            <input type="checkbox" id={id} onChange={onDoneTrueFalseChangeHandler} checked={isDone} ref={checkboxRef}/>
-            <label className={doneClass} htmlFor={id}>{todoTask}</label>
+            <input type="checkbox" id={id} onChange={onDoneTrueFalseChangeHandler} checked={done} ref={checkboxRef}/>
+            <label className={doneClass} htmlFor={id}>{task}</label>
             <span className={`due-date ${doneClass}`}>{dueDate}</span>
             <span className={`priority ${doneClass}`}>{priorities[priority]}</span>
         </li>
         </>
     )
 }
-export default TaskItems;
+export default TodoItems;
 
 export const TodoItemForChildren = ({children}) => {
 

@@ -2,12 +2,11 @@ import {Confirm} from "../ui/Modal.jsx";
 import {useContext, useRef} from "react";
 import {TodoContext} from "./context/TodoContext.jsx";
 
-const TaskHeader = ({onAllDoneChange}) => {
+const TodoHeader = ({todoCount:{all, done, process}, onAllDoneChange}) => {
     const checkboxRef = useRef();
     const confirmRef = useRef();
 
     const {componentName} = useContext(TodoContext);
-    console.log("TodoHeader: ", componentName);
     if (!componentName || componentName !== "TodoGrid") {
         return <></>;
     }
@@ -31,7 +30,11 @@ const TaskHeader = ({onAllDoneChange}) => {
     return (
         <>
         <Confirm dialogRef={confirmRef} onOkClick={onConfirmOkHandler} onCloseClick={onConfirmCancelHandler}/>
-
+        <li>
+            <div>전체: {all} </div>
+            <div>완료: {done} </div>
+            <div>미완료: {process}</div>
+        </li>
         <li className="tasks-header">
             <input type="checkbox" id="checkall" onChange={onAllDoneTrueFalseChangeHandler} ref={checkboxRef}/>
             <label>Task</label>
@@ -41,4 +44,4 @@ const TaskHeader = ({onAllDoneChange}) => {
         </>
     )
 }
-export default TaskHeader
+export default TodoHeader

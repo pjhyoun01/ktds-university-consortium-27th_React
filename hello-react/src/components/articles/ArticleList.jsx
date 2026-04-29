@@ -1,5 +1,3 @@
-/** @format */
-
 const ArticleList = ({ contents }) => {
   return (
     <tbody>
