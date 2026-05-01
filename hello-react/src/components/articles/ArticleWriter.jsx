@@ -1,7 +1,9 @@
 import {useRef, useState} from "react";
 import {Alert} from "../ui/Modal.jsx";
+import {fetchAddArticle} from "../../http/article/fetchArticle.js";
+import {useSelector} from "react-redux";
 
-const Input = ({id, title, type = "text", ...props}) => {
+export const Input = ({id, title, type = "text", ...props}) => {
     return (
         <div className="input-field">
             <label htmlFor={id}>{title}</label>
@@ -20,7 +22,9 @@ const Textarea = ({id, title, ...props}) => {
     }
 ;
 
-const ArticleWriter = ({onAddArticleClick}) => {
+const ArticleWriter = () => {
+
+    const token = useSelector(state => state.article.token);
 
     const subjectRef = useRef();
     const contentRef = useRef();
@@ -31,7 +35,7 @@ const ArticleWriter = ({onAddArticleClick}) => {
     const [writerForm, setWriterForm] = useState(false);
 
     // 저장을 클릭하면 입력했던 값을 가져와 출력 (state 없이)
-    const onTestDaveClickHandler = () => {
+    const onTestDaveClickHandler = async () => {
 
         if (!subjectRef.current.value) {
             alertRef.current.showModal("제목을");
@@ -40,10 +44,10 @@ const ArticleWriter = ({onAddArticleClick}) => {
             alertRef.current.showModal("내용을");
             return;
         }
-
-        onAddArticleClick(subjectRef.current.value,
-            contentRef.current.value,
-            attachfileRef.current.files,)
+        const addResult = await fetchAddArticle(token, subjectRef.current.value, contentRef.current.value, attachfileRef.current.files);
+        if (addResult.error) {
+            alert(addResult.error);
+        }
 
         subjectRef.current.value = "";
         contentRef.current.value = "";

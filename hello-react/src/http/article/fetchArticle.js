@@ -4,8 +4,7 @@ export const fetchArticleList = async (pageNo = 0, listSize = 10) => {
             `http://localhost:8080/api/articles?pageNo=${pageNo}&listSize=${listSize}`,
         );
 
-        const listResult = await fetchResult.json();
-        return listResult;
+        return await fetchResult.json();
     } catch (e) {
         return {
             result: {count: 0, result: []},
@@ -24,15 +23,13 @@ export const fetchLogin = async (email, password) => {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    // TODO 나중에 삭제
                     email,
                     password,
                 })
             }
         );
 
-        const loginResult = await fetchResult.json()
-        return await loginResult;
+        return await fetchResult.json();
     } catch (e) {
         return {
             result: false,
@@ -64,8 +61,7 @@ export const fetchAddArticle = async (token, subject, content, attachfile) => {
             body: formData,
 
         });
-        console.log("fetch 성공?")
-        console.log(await fetchResult.json());
+
         return await fetchResult.json();
     } catch (e) {
         return {
