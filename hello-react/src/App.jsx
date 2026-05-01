@@ -9,6 +9,8 @@
 import TodoMain from "./components/todo/TodoMain";
 import {ArticleMain} from "./components/articles/ArticleMain.jsx";
 import {TmdbMain} from "./components/tmdb/TmdbMain.jsx";
+import {ReactReduxProvider} from "./stores/redux/ReactReduxProvider.jsx";
+import {ToolkitProvider} from "./stores/toolkit/ToolkitProvider.jsx";
 
 // export default App;
 
@@ -16,6 +18,8 @@ import {TmdbMain} from "./components/tmdb/TmdbMain.jsx";
 
 export default function App() {
     return (
-        <ArticleMain/>
+        // <ToolkitProvider>
+            <ArticleMain/>
+        // </ToolkitProvider>
     );
 }

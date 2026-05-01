@@ -1,7 +1,14 @@
-import {memo, useRef} from "react";
+import {memo, useRef, useState} from "react";
 import {Alert} from "../ui/Modal.jsx";
+import {useDispatch} from "react-redux";
+import {fetchAddTodo, fetchTodoList} from "../../http/todo/fetchTodo.js";
+import {todoAction} from "../../stores/toolkit/slices/todoSlice.js";
 
-const TodoAppender = memo(({onSaveClick}) => {
+const TodoAppender = memo(() => {
+
+    const reactReduxDispatcher = useDispatch();
+
+    const [isFetching, setIsFetching] = useState(false);
 
     const todoRef = useRef();
     const dueDateRef = useRef();
@@ -10,7 +17,7 @@ const TodoAppender = memo(({onSaveClick}) => {
 
     const alertRef = useRef();
 
-    const onSaveButtonClickHandler = () => {
+    const onSaveButtonClickHandler = async () => {
         if (!todoRef.current.value) {
             alertRef.current.showModal("TODO를");
             return;
@@ -23,8 +30,20 @@ const TodoAppender = memo(({onSaveClick}) => {
             alertRef.current.showModal("우선순위를");
             return;
         }
+        reactReduxDispatcher({type: "todo-add", payload: {
+                todo: todoRef.current.value,
+                dueDate: dueDateRef.current.value,
+                priority: priorityRef.current.value
+            }});
+        setIsFetching(true);
+        const addTodo = await fetchAddTodo(todoRef.current.value, dueDateRef.current.value, priorityRef.current.value);
+        setIsFetching(false);
+        if (addTodo) {
+            alert(addTodo.errors);
+        }
+        const refresh = await fetchTodoList();
+        reactReduxDispatcher(todoAction.refresh(refresh.body));
 
-        onSaveClick(todoRef.current.value, dueDateRef.current.value, priorityRef.current.value);
         todoRef.current.value = "";
         dueDateRef.current.value = "";
         priorityRef.current.value = "default";
@@ -43,8 +62,8 @@ const TodoAppender = memo(({onSaveClick}) => {
                     <option value="2">보통</option>
                     <option value="3">낮음</option>
                 </select>
-                <button type="button" onClick={onSaveButtonClickHandler}>
-                    Save
+                <button type="button" disabled={isFetching} onClick={onSaveButtonClickHandler}>
+                    {isFetching ? "저장중..." : "저장"}
                 </button>
             </footer>
         </>

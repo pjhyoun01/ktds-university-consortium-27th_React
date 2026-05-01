@@ -12,84 +12,50 @@ import TodoHeader from "./TodoHeader.jsx";
 import TodoItems from "./TodoItems.jsx";
 import TodoAppender from "./TodoAppender.jsx";
 import TodoList from "./TodoList.jsx";
-import {useCallback, useEffect, useMemo, useState} from "react";
+import {useEffect} from "react";
 import {TodoGrid} from "./TodoGrid.jsx";
-import {fetchAddTodo, fetchAllDoneTodo, fetchDoneTodo, fetchTodoList} from "../../http/todo/fetchTodo.js";
+import {fetchTodoList} from "../../http/todo/fetchTodo.js";
+import {useDispatch, useSelector} from "react-redux";
+import {todoAction} from "../../stores/toolkit/slices/todoSlice.js";
 
 const TodoMain = () => {
 
-    // fetch("http://localhost:8888/api/v1/task", {
-    //     method: "GET",
-    // })
-    //     .then(response => response.json())
-    //     .then(json => console.log("json 데이터: ", json));
-    // console.log("TodoMain");
-
-
+    // Store에서 todo state를 가져온다
+    const todoList = useSelector((state) => state.todo.list);
+    const storeDispatcher = useDispatch();
     // const ==> 상수 정의
     // let ==> 변수 정의 (반복문 외 잘 사용하지 않음)
     // TODO JSON DATA
-    const [data, setData] = useState([]);
+    // const [data, setData] = useState([]);
 
     const fetchTodoListData = async () => {
 
-        const TodoList = await fetchTodoList();
-        if (!TodoList) {
-            alert(TodoList.errors)
-        } else {
-            setData(TodoList.body)
+        const fetchResult = await fetchTodoList();
+        if (!fetchResult) {
+            alert(fetchResult.errors)
         }
+        // setData(fetchResult.body)
+        storeDispatcher(todoAction.refresh(fetchResult.body));
+
+
     };
     useEffect(() => {
         fetchTodoListData();
     }, []);
-
-    const todoCount = useMemo(() => {
-        return {
-            all: data.length,
-            done: data.filter((item) => item.done).length,
-            process: data.filter((item) => !item.done).length,
-        }
-    }, [data])
-
-    const onAllDoneChangeHandler = useCallback(async () => {
-        const allDoneTodo = await fetchAllDoneTodo();
-        if (allDoneTodo) {
-            alert(allDoneTodo.errors);
-        }
-        await fetchTodoListData()
-    }, []);
-
-    const onDoneChangeHandler = useCallback(async (id) => {
-        const doneTodo = await fetchDoneTodo(id);
-        if (doneTodo) {
-            alert(doneTodo.errors);
-        }
-        await fetchTodoListData()
-    }, []);
-
-    const onSaveClickHandler = async (todo, dueDate, priority) => {
-
-        const addTodo = await fetchAddTodo(todo, dueDate, priority);
-        if (addTodo) {
-            alert(addTodo.errors);
-        }
-        await fetchTodoListData()
-    };
 
     // 컴포넌트가 만들어줄 HTML Tag set 을 반환
     return (
         <div className="wrapper">
             <header>React Todo</header>
             <TodoGrid>
-                <TodoHeader todoCount={todoCount} onAllDoneChange={onAllDoneChangeHandler}/>
+                <TodoHeader/>
                 <TodoList>
-                    {data.map((todo) => (
-                        <TodoItems key={todo.id} todo={todo} onDoneChange={onDoneChangeHandler}/>
+                    {todoList.map((todo) => (
+                        <TodoItems key={todo.id} todo={todo}/>
                     ))}
                 </TodoList>
             </TodoGrid>
-            <TodoAppender onSaveClick={onSaveClickHandler}/>
+            <TodoAppender/>
         </div>
     );
 };

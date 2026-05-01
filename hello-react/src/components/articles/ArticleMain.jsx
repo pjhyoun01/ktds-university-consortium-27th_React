@@ -2,13 +2,16 @@ import {useEffect, useRef, useState} from "react";
 import ArticleHeader from "./ArticleHeader.jsx";
 import ArticleList from "./ArticleList.jsx";
 import ArticleWriter from "./ArticleWriter.jsx";
-import {fetchArticleList, fetchJsonWebToken} from "../../http/article/fetchArticle.js";
+import {fetchAddArticle, fetchArticleList, fetchLogin} from "../../http/article/fetchArticle.js";
+import {isArray, isFunction, isNumber, isObject, isString} from "../../utils/type.js";
+import {getValidationResult} from "../../utils/errorHandler.js";
 
 export const ArticleMain = () => {
 
     const emailRef = useRef();
     const passwordRef = useRef();
     const [token, setToken] = useState();
+    const [loginErrors, setLoginErrors] = useState();
     const [viewPageNo, setViewPageNo] = useState(0);
     const onPaginationButtonClickHandler = (nextPageNo) => {
         setViewPageNo(nextPageNo);
@@ -51,47 +54,41 @@ export const ArticleMain = () => {
         refreshArticleList();
     }, [viewPageNo]);
 
-    const refreshToken = async () => {
-        const jwt = await fetchJsonWebToken(emailRef.current.value, passwordRef.current.value);
-        console.log(jwt.token)
-        setToken(jwt);
+    const onClickLoginHandler = async () => {
+        const loginResult = await fetchLogin(emailRef.current.value, passwordRef.current.value);
+
+        if (loginResult.error) {
+            setLoginErrors(getValidationResult(loginResult.error));
+        } else {
+            setToken(loginResult.token);
+        }
     }
 
 
-    const onAddArticleClickHandler = (subject, name, email, content) => {
-        setArticles((prevData) => [
-            ...prevData,
-            {
-                id: prevData.length + 1,
-                subject,
-                content,
-                email,
-                viewCnt: parseInt(Math.random() * 10000),
-                crtDt: "2026-01-01",
-                mdfyDt: null,
-                fileGroupId: null,
-                membersVO: {email, name},
-                files: [],
-            },
-        ]);
+    const onAddArticleClickHandler = async (subject, content, attachfile) => {
+        console.log(token)
+        await fetchAddArticle(token, subject, content, attachfile);
     };
 
     return (
         <div className="wrapper">
-            {!token ? (
+            {!token && (
                 <div>
+                    {isString(loginErrors) && <div>{loginErrors}</div>}
                     <div>
                         <label htmlFor="">이메일</label>
                         <input type="text" ref={emailRef}/>
+                        {loginErrors?.email && <div>{loginErrors.email}</div>}
                     </div>
                     <div>
                         <label htmlFor="">비밀번호</label>
-                        <input type="text" ref={passwordRef}/>
+                        <input type="password" ref={passwordRef}/>
+                        {loginErrors?.password && <div>{loginErrors.password}</div>}
                     </div>
 
-                    <button onClick={refreshToken}>로그인</button>
+                    <button onClick={onClickLoginHandler}>로그인</button>
                 </div>
-            ) : <></>}
+            )}
             <div>{count}개의 게시글이 검색되었습니다.</div>
             <table>
                 <ArticleHeader/>

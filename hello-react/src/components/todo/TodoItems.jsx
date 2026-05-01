@@ -1,8 +1,14 @@
 import {Confirm} from "../ui/Modal.jsx";
 import {useContext, useRef} from "react";
 import {TodoContext} from "./context/TodoContext.jsx";
+import {useDispatch} from "react-redux";
+import {fetchDoneTodo, fetchTodoList} from "../../http/todo/fetchTodo.js";
+import {todoAction} from "../../stores/toolkit/slices/todoSlice.js";
 
-const TodoItems = ({todo, onDoneChange}) => {
+const TodoItems = ({todo}) => {
+
+    const reactReduxDispatch = useDispatch();
+
     const priorities = ["없음", "높음", "보통", "낮음"];
 
     const {componentName} = useContext(TodoContext);
@@ -33,8 +39,15 @@ const TodoItems = ({todo, onDoneChange}) => {
 
     }
 
-    const onConfirmOkHandler = () => {
-        onDoneChange(id)
+    const onConfirmOkHandler = async () => {
+        reactReduxDispatch(todoAction.doneItem(id));
+        const doneTodo = await fetchDoneTodo(id);
+        if (doneTodo.errors) {
+            alert(doneTodo.errors);
+        }
+        const refresh = await fetchTodoList();
+        reactReduxDispatch(todoAction.refresh(refresh.body));
+
     }
 
     const onConfirmCancelHandler = () => {

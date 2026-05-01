@@ -1,46 +1,76 @@
 export const fetchArticleList = async (pageNo = 0, listSize = 10) => {
     try {
         const fetchResult = await fetch(
-            `http://192.168.211.11:8083/api/articles?pageNo=${pageNo}&listSize=${listSize}`,
+            `http://localhost:8080/api/articles?pageNo=${pageNo}&listSize=${listSize}`,
         );
 
         const listResult = await fetchResult.json();
         return listResult;
     } catch (e) {
         return {
-            result: { count: 0, result: [] },
+            result: {count: 0, result: []},
             pagination: {},
             error: "서비스가 잠시 중단되었습니다. 잠시 후 다시 시도해주세요.",
         };
     }
 };
 
-export const fetchJsonWebToken = async (email, password) => {
+export const fetchLogin = async (email, password) => {
     try {
         const fetchResult = await fetch(
-            "http://192.168.211.11:8083/api/authorization", {
+            "http://localhost:8080/api/authorization", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
+                    // TODO 나중에 삭제
                     email,
-                    password
+                    password,
                 })
             }
-
         );
 
-        const jwt = await fetchResult.json()
-        return await jwt;
+        const loginResult = await fetchResult.json()
+        return await loginResult;
     } catch (e) {
         return {
-            result: { count: 0, result: [] },
-            pagination: {},
+            result: false,
             error: "서비스가 잠시 중단되었습니다. 잠시 후 다시 시도해주세요.",
         };
     }
 };
 
 // 인증 정보 필요.
-export const fetchAddArticle = () => {};
+export const fetchAddArticle = async (token, subject, content, attachfile) => {
+    try {
+        const formData = new FormData();
+        formData.append("subject", subject);
+        formData.append("content", content);
+        for (const file of attachfile) {
+            formData.append("attachFile", file);
+        }
+        const fetchResult = await fetch("http://localhost:8080/api/articles", {
+            method: "POST",
+            headers: {
+                Authorization: token
+            },
+            // server에서 requestBody를 받지 않으므로 form데이터를 넘겨줌
+            // body: JSON.stringify({
+            //     subject,
+            //     content,
+            //     attachfile,
+            // })
+            body: formData,
+
+        });
+        console.log("fetch 성공?")
+        console.log(await fetchResult.json());
+        return await fetchResult.json();
+    } catch (e) {
+        return {
+            result: false,
+            error: "서비스가 잠시 중단되었습니다. 잠시 후 다시 시도해주세요.",
+        };
+    }
+};
