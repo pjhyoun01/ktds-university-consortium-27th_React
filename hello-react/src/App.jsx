@@ -1,10 +1,10 @@
 import {ToolkitProvider} from "./stores/toolkit/ToolkitProvider.jsx";
-import {ArticleMain} from "./components/articles/ArticleMain.jsx";
+import {RouterAppProvider} from "./routers/RouterAppProvider.jsx";
 
 export default function App() {
     return (
         <ToolkitProvider>
-            <ArticleMain/>
+            <RouterAppProvider/>
         </ToolkitProvider>
     );
 }
